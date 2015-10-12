@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Google spreadsheet api example
+ *
+ * @license MIT
+ * @author Mike Funk <mike@mikefunk.com>
+ */
 require __DIR__ . '/vendor/autoload.php';
 
 use Google\Spreadsheet\DefaultServiceRequest;
@@ -7,10 +12,24 @@ use Google\Spreadsheet\ServiceRequestFactory;
 use Google\Spreadsheet\SpreadsheetService;
 use Google\Spreadsheet\Exception as SpreadsheetException;
 
-// load env vars from .env
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
-$accessToken = getEnv('accessToken');
+// use a google client to get the access token
+$client = new Google_Client();
+if (!file_exists(__DIR__ . '/service_account.json')) {
+    throw new RuntimeException(
+        'First download your service account json from the google developer ' .
+        'console into service_account.json'
+    );
+}
+$credentials = $client->loadServiceAccountJson(
+    __DIR__ . '/service_account.json',
+    $scopes = ['https://spreadsheets.google.com/feeds']
+);
+$client->setAssertionCredentials($credentials);
+if ($client->getAuth()->isAccessTokenExpired()) {
+    $client->getAuth()->refreshTokenWithAssertion();
+}
+$accessToken = $client->getAuth()->getAccessToken();
+// var_dump($accessToken); exit;
 
 try {
     // bootstrap
