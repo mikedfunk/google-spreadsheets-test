@@ -49,8 +49,10 @@ try {
     $worksheetFeed = $spreadsheet->getWorksheets();
     $worksheet = $worksheetFeed->getByTitle('Sheet1');
 
+    // all rows
+    // var_dump($worksheet->getListFeed()); exit;
+
     // get the rows that match a columnName / value
-    // can also call getListFeed() for all rows
     /** @var Google\Spreadsheet\ListFeed */
     $listFeed = $worksheet->getListFeed(['sq' => 'email = "test1fdsdf@test.com"']);
 
