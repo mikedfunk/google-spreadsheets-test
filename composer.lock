@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "63f0031ef6fd2b0dcd564ee5e5f83cc2",
-    "content-hash": "8830e1545cad5a60cb2186d2e8baca1c",
+    "hash": "b8359227a7a6cc526b4e57174dbd0110",
+    "content-hash": "769476c5c141a3c6cf72b0fc9a48bf57",
     "packages": [
         {
             "name": "asimlqt/php-google-spreadsheet-client",
@@ -59,50 +59,47 @@
             "time": "2015-06-21 10:59:02"
         },
         {
-            "name": "vlucas/phpdotenv",
-            "version": "v2.0.1",
+            "name": "google/apiclient",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "91064290f5b53a09bdff1b939d7f69fb0e7531b5"
+                "url": "https://github.com/google/google-api-php-client.git",
+                "reference": "2bc00ec4e8fa1a5eec793d800fac339f30b730db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/91064290f5b53a09bdff1b939d7f69fb0e7531b5",
-                "reference": "91064290f5b53a09bdff1b939d7f69fb0e7531b5",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/2bc00ec4e8fa1a5eec793d800fac339f30b730db",
+                "reference": "2bc00ec4e8fa1a5eec793d800fac339f30b730db",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": ">=5.2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "~2.3"
             },
             "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Dotenv\\": "src/"
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
                 }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "Apache-2.0"
             ],
-            "authors": [
-                {
-                    "name": "Vance Lucas",
-                    "email": "vance@vancelucas.com",
-                    "homepage": "http://www.vancelucas.com"
-                }
-            ],
-            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
-            "homepage": "http://github.com/vlucas/phpdotenv",
+            "description": "Client library for Google APIs",
+            "homepage": "http://developers.google.com/api-client-library/php",
             "keywords": [
-                "dotenv",
-                "env",
-                "environment"
+                "google"
             ],
-            "time": "2015-05-30 16:15:01"
+            "time": "2015-09-23 04:19:33"
         }
     ],
     "packages-dev": [],

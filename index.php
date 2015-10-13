@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Google spreadsheet api example
+ *
+ * @license MIT
+ * @author Mike Funk <mike@mikefunk.com>
+ */
 require __DIR__ . '/vendor/autoload.php';
 
 use Google\Spreadsheet\DefaultServiceRequest;
@@ -7,10 +12,26 @@ use Google\Spreadsheet\ServiceRequestFactory;
 use Google\Spreadsheet\SpreadsheetService;
 use Google\Spreadsheet\Exception as SpreadsheetException;
 
-// load env vars from .env
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
-$accessToken = getEnv('accessToken');
+// ensure we have a service account json file
+if (!file_exists(__DIR__ . '/service_account.json')) {
+    throw new RuntimeException(
+        'First download your service account json from the google developer ' .
+        'console into service_account.json'
+    );
+}
+
+// get the access token through the client
+$client = new Google_Client();
+$credentials = $client->loadServiceAccountJson(
+    __DIR__ . '/service_account.json',
+    $scopes = ['https://spreadsheets.google.com/feeds']
+);
+$client->setAssertionCredentials($credentials);
+if ($client->getAuth()->isAccessTokenExpired()) {
+    $client->getAuth()->refreshTokenWithAssertion();
+}
+$response = json_decode($client->getAuth()->getAccessToken());
+$accessToken = $response->access_token;
 
 try {
     // bootstrap
@@ -20,6 +41,8 @@ try {
 
     // get the spreadsheet
     $spreadsheetFeed = $spreadsheetService->getSpreadsheets();
+    // all spreadsheets
+    // var_dump($spreadsheetFeed); exit;
     $spreadsheet = $spreadsheetFeed->getByTitle('PostTest');
 
     // get the worksheet

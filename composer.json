@@ -1,6 +1,6 @@
 {
     "require": {
         "asimlqt/php-google-spreadsheet-client": "^2.3",
-        "vlucas/phpdotenv": "^2.0"
+        "google/apiclient": "^1.1"
     }
 }
