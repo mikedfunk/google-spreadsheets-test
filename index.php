@@ -12,6 +12,11 @@ use Google\Spreadsheet\ServiceRequestFactory;
 use Google\Spreadsheet\SpreadsheetService;
 use Google\Spreadsheet\Exception as SpreadsheetException;
 
+// load env vars from .env
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+$accessToken = getEnv('accessToken');
+
 // use a google client to get the access token
 $client = new Google_Client();
 if (!file_exists(__DIR__ . '/service_account.json')) {
@@ -33,42 +38,17 @@ $accessToken = $client->getAuth()->getAccessToken();
 
 try {
     // bootstrap
-    $serviceRequest = new DefaultServiceRequest($accessToken);
-    ServiceRequestFactory::setInstance($serviceRequest);
-    $spreadsheetService = new SpreadsheetService();
+    $service = new Google_Service_Drive($client);
 
     // get the spreadsheet
-    $spreadsheetFeed = $spreadsheetService->getSpreadsheets();
-    $spreadsheet = $spreadsheetFeed->getByTitle('PostTest');
+    $fileId = '1JTqyNLK2X1nWb6cLsOVEGDukRhMlbXiIG4AlQt9EuY0';
+    // @throws Google_Service_Exception insufficient permission. Assume this
+    // is because the service account is not the owner of the doc.
+    $file = $service->files->get($fileId);
 
-    // get the worksheet
-    $worksheetFeed = $spreadsheet->getWorksheets();
-    $worksheet = $worksheetFeed->getByTitle('Sheet1');
+    // beyond this you have to send raw curl requests, or create your own
+    // abstraction. yuck.
 
-    // get the rows that match a columnName / value
-    // can also call getListFeed() for all rows
-    /** @var Google\Spreadsheet\ListFeed */
-    $listFeed = $worksheet->getListFeed(['sq' => 'email = "test1fdsdf@test.com"']);
-
-    // insert if not exists
-    if (count($listFeed->getEntries()) === 0) {
-        $data = [
-            'email' => 'test123' . rand() . '@test.com',
-            'acceptedterms' => 'TRUE',
-        ];
-        $listFeed->insert($data);
-        var_dump('DONE'); exit;
-    }
-    var_dump('ALREADY THERE'); exit;
-
-    // get associative array of values in each row
-    // var_dump($listFeed); exit;
-    // var_dump($listFeed->getEntries()); exit;
-    // /** @var Google\Spreadsheet\ListEntry */
-    // foreach ($listFeed->getEntries() as $row) {
-        // var_dump($row->getValues()); exit;
-    // }
-
-} catch (SpreadsheetException $e) {
+} catch (Google_Service_Exception $e) {
     var_dump($e->getMessage()); exit;
 }
