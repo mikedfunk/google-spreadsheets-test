@@ -2,7 +2,9 @@
 
 This uses the
 [php-google-spreadsheet-client](https://github.com/asimlqt/php-google-spreadsheet-client)
-library. The example code is in `index.php`.
+library along with the [official google php api
+client](https://github.com/google/google-api-php-client). The example code is
+in `index.php`.
 
 ## Setup
 
