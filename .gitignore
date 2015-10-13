@@ -1,4 +1,2 @@
 vendor
-.env
-.access_token
 service_account.json
