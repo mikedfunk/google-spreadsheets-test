@@ -1,5 +1,9 @@
 # Example of using Google Spreadsheets API
 
+This uses the
+[php-google-spreadsheet-client](https://github.com/asimlqt/php-google-spreadsheet-client)
+library. The example code is in `index.php`.
+
 ## Setup
 
 1. Create an app at the [Google developer console](https://console.developers.google.com/project)
